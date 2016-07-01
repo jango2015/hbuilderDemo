@@ -16,8 +16,8 @@
 		  </div>
 		</div>
 		<div class="mui-list-inline">
-			<ul class="mui-table-view">
-				<li class="mui-table-view-cell mui-media">
+			<ul class="mui-table-view viewlist">
+				<!--<li class="mui-table-view-cell mui-media">
 					<a href="javascript:;">
 						<img class="mui-media-object mui-pull-left" src="../images/shuijiao.jpg">
 						<div class="mui-media-body">
@@ -43,22 +43,39 @@
 							<p class='mui-ellipsis'>烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p>
 						</div>
 					</a>
-				</li>
+				</li>-->
 			</ul>
 		</div>
     </div>
     <script type="text/javascript" charset="utf-8">
-      	mui.init();
+      
       	//获得slider插件对象
 		var gallery = mui('.mui-slider');
 		gallery.slider({
 		  interval:5000//自动轮播周期，若为0则不自动播放，默认为0；
 		});
-		mui.getJSON('http://server-name/list.php',{category:'news'},function(data){
-		//获得服务器响应
-		...
-	}
-);
+		window.onload =function(){
+			var devicesUrl="http://t.ailianlian.com/8083/Api/Eatown/Devices?Latitude=31.211434&Longitude=121.5628";
+			mui.getJSON(devicesUrl,null,function(res){
+			//获得服务器响应
+				console.log(res);
+				var html='';
+				if(res.data.devices!=null){
+					for(var i= 0 ;i<res.data.devices.length;i++){
+						var device =res.data.devices[i];
+		//				console.log(device);
+						var uhtml ="<li class=\"mui-table-view-cell mui-media\"><a href=\"javascript:;\"><img class=\"mui-media-object mui-pull-left\" src="+device.coverImage+"><div class=\"mui-media-body\">"+device.name+"<p class=\"ui-ellipsis\">"+device.address+"</p></div></a></li>"
+		//				console.log(uhtml);
+						html+=uhtml;
+		//				mui(".viewlist").append(uhtml);
+					}
+					console.log(html);
+					var e = document.getElementsByClassName("viewlist");
+					console.log(e);
+					e[0].innerHTML=html;
+				}
+			});
+		}
     </script>
 </head>
 <body>
